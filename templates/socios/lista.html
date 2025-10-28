@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Socios - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Gestión de Socios</h2>
+    <a href="{% url 'socios:crear' %}" class="btn btn-primary">Nuevo Socio</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for socio in socios %}
+            <tr>
+                <td>{{ socio.nombre_completo }}</td>
+                <td>{{ socio.dni }}</td>
+                <td>{{ socio.email }}</td>
+                <td>{{ socio.telefono }}</td>
+                <td>
+                    {% if socio.activo %}
+                        <span class="badge bg-success">Activo</span>
+                    {% else %}
+                        <span class="badge bg-danger">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'socios:detalle' socio.pk %}" class="btn btn-sm btn-outline-primary">Ver Préstamos</a>
+                    <a href="{% url 'socios:editar' socio.pk %}" class="btn btn-sm btn-outline-warning">Editar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No hay socios registrados</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

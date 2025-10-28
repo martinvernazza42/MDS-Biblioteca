@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Prestar Libro - Biblioteca{% endblock %}
+
+{% block content %}
+<h2>Prestar Libro</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">{{ libro.titulo }}</h5>
+        <p class="card-text">
+            <strong>Autor:</strong> {{ libro.autor }}<br>
+            <strong>ISBN:</strong> {{ libro.isbn }}<br>
+            <strong>Estado:</strong> 
+            <span class="badge bg-{% if libro.disponible %}success{% else %}warning{% endif %}">
+                {{ libro.get_estado_display }}
+            </span>
+        </p>
+    </div>
+</div>
+
+{% if libro.disponible %}
+<form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-6">
+        <label for="socio_id" class="form-label">Seleccionar Socio</label>
+        <select class="form-select" name="socio_id" id="socio_id" required>
+            <option value="">Seleccione un socio...</option>
+            {% for socio in socios %}
+                <option value="{{ socio.pk }}">{{ socio.numero_socio }} - {{ socio.nombre_completo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label for="fecha_devolucion" class="form-label">Fecha de Devolución</label>
+        <input type="date" class="form-control" name="fecha_devolucion" id="fecha_devolucion" required>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Registrar Préstamo</button>
+        <a href="{% url 'libros:lista' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% else %}
+<div class="alert alert-warning">
+    Este libro no está disponible para préstamo.
+</div>
+<a href="{% url 'libros:lista' %}" class="btn btn-secondary">Volver</a>
+{% endif %}
+{% endblock %}

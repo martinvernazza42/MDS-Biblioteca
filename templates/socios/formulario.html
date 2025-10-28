@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar{% else %}Crear{% endif %} Socio - Biblioteca{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Editar{% else %}Crear{% endif %} Socio</h2>
+
+<form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-6">
+        <label for="id_nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" name="nombre" id="id_nombre" value="{{ form.nombre.value|default:'' }}" required>
+    </div>
+    <div class="col-md-6">
+        <label for="id_apellidos" class="form-label">Apellidos</label>
+        <input type="text" class="form-control" name="apellidos" id="id_apellidos" value="{{ form.apellidos.value|default:'' }}" required>
+    </div>
+    <div class="col-md-6">
+        <label for="id_dni" class="form-label">DNI</label>
+        <input type="text" class="form-control{% if form.dni.errors %} is-invalid{% endif %}" name="dni" id="id_dni" value="{{ form.dni.value|default:'' }}" required>
+        {% if form.dni.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.dni.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <label for="id_email" class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" id="id_email" value="{{ form.email.value|default:'' }}" required>
+    </div>
+    <div class="col-md-6">
+        <label for="id_telefono" class="form-label">Teléfono</label>
+        <input type="text" class="form-control" name="telefono" id="id_telefono" value="{{ form.telefono.value|default:'' }}">
+    </div>
+    <div class="col-12">
+        <label for="id_direccion" class="form-label">Dirección</label>
+        <textarea class="form-control" name="direccion" id="id_direccion" rows="3">{{ form.direccion.value|default:'' }}</textarea>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'socios:lista' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}
