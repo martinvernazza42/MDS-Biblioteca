@@ -4,12 +4,12 @@ from django.db import models
 
 class Usuario(AbstractUser):
     ROLES = [
-        ('admin', 'Administrador'),
-        ('bibliotecario', 'Bibliotecario'),
-        ('asistente', 'Asistente'),
+        ("admin", "Administrador"),
+        ("bibliotecario", "Bibliotecario"),
+        ("asistente", "Asistente"),
     ]
-    
-    rol = models.CharField(max_length=20, choices=ROLES, default='asistente')
+
+    rol = models.CharField(max_length=20, choices=ROLES, default="asistente")
     telefono = models.CharField(max_length=15, blank=True)
     fecha_ingreso = models.DateTimeField(auto_now_add=True)
 
@@ -21,7 +21,7 @@ class Usuario(AbstractUser):
         return f"{self.get_full_name()} ({self.get_rol_display()})"
 
     def es_administrador(self):
-        return self.rol == 'admin'
+        return self.rol == "admin"
 
     def puede_gestionar_socios(self):
-        return self.rol in ['admin', 'bibliotecario']
+        return self.rol in ["admin", "bibliotecario"]

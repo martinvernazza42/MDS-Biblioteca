@@ -16,7 +16,7 @@ class Multa(models.Model):
     class Meta:
         verbose_name = "Multa"
         verbose_name_plural = "Multas"
-        ordering = ['-fecha_multa']
+        ordering = ["-fecha_multa"]
 
     def __str__(self):
         return f"Multa {self.socio.nombre_completo} - {self.importe}€"
@@ -24,18 +24,16 @@ class Multa(models.Model):
     @classmethod
     def registrar_multa(cls, socio, libro, motivo, importe=None):
         if not importe:
-            importe = Decimal('5.00') if 'dañado' in motivo.lower() else Decimal('2.00')
-        
+            importe = Decimal("5.00") if "dañado" in motivo.lower() else Decimal("2.00")
+
         multa = cls.objects.create(
-            socio=socio,
-            libro_titulo=libro.titulo,
-            importe=importe,
-            motivo=motivo
+            socio=socio, libro_titulo=libro.titulo, importe=importe, motivo=motivo
         )
         return multa
 
     def marcar_como_pagada(self):
         from django.utils import timezone
+
         self.pagada = True
         self.fecha_pago = timezone.now()
         self.save()

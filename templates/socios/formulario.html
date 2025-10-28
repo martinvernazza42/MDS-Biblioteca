@@ -32,7 +32,7 @@
     </div>
     <div class="col-md-6">
         <label for="id_telefono" class="form-label">Teléfono</label>
-        <input type="text" class="form-control" name="telefono" id="id_telefono" value="{{ form.telefono.value|default:'' }}">
+        <input type="tel" class="form-control" name="telefono" id="id_telefono" value="{{ form.telefono.value|default:'' }}" pattern="[0-9]+" title="Solo se permiten números">
     </div>
     <div class="col-12">
         <label for="id_direccion" class="form-label">Dirección</label>
